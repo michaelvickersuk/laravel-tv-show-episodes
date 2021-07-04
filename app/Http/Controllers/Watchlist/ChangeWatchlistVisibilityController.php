@@ -9,7 +9,7 @@ class ChangeWatchlistVisibilityController
 {
     public function __invoke(Watchlist $watchlist): RedirectResponse
     {
-        // todo - Update the watchlist visibility
+        $watchlist->togglePrivate()->save();
 
         return redirect()->back();
     }

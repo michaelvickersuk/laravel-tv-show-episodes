@@ -5,6 +5,7 @@ namespace App\Models\Show;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * App\Models\Show\Episode
@@ -17,6 +18,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Show\Season $season
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User\User[] $userPlays
+ * @property-read int|null $user_plays_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Show\Episode newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Show\Episode newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Show\Episode query()
@@ -37,6 +40,11 @@ class Episode extends Model
         'aired',
     ];
 
+    public function userPlays(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'episode_plays');
+    }
+
     public function season(): BelongsTo
     {
         return $this->belongsTo(Season::class);
@@ -53,8 +61,13 @@ class Episode extends Model
 
     public function hasUserWatched(User $user): bool
     {
-        // todo
+        return $this->userPlays->contains('id', $user->id);
+    }
 
-        return false;
+    public function countUserPlays(): self
+    {
+        $this->plays = $this->userPlays->count();
+
+        return $this;
     }
 }

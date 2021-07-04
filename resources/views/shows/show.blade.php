@@ -28,11 +28,16 @@
             </div>
         </div>
 
-        <div class="card mb-3">
-            <div class="card-body">
-                <h2 class="card-title">Next Episode</h2>
+        @if ($nextEpisode)
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h2 class="card-title">Next Episode</h2>
+                    <div class="list-group">
+                        @each('shows._episodeRow', [$nextEpisode], 'episode')
+                    </div>
+                </div>
             </div>
-        </div>
+        @endif
 
         @if($show->seasons)
             <div class="card mb-3">
@@ -45,15 +50,15 @@
             </div>
         @endif
 
-        @if($show->watchlists)
+        @if($show->publicWatchlists)
             <div class="card mb-3">
                 <div class="card-body">
                     <h2 class="card-title">Watchlists</h2>
                     <p class="card-text text-muted">
-                        This show is currently on {{ $show->watchlists->count() }} watchlists
+                        This show is currently on {{ $show->publicWatchlists->count() }} public watchlists
                     </p>
                     <div class="list-group">
-                        @each('user._watchlistRow', $show->watchlists, 'watchlist')
+                        @each('user._watchlistRow', $show->publicWatchlists, 'watchlist')
                     </div>
                 </div>
             </div>

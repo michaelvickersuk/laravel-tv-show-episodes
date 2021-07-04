@@ -17,7 +17,7 @@
             <div class="card-body">
                 <h2 class="card-title">What's on next</h2>
                 <div class="list-group">
-                    ...
+                    @each('shows._episodeRow', $upcomingEpisodes, 'episode')
                 </div>
             </div>
         </div>

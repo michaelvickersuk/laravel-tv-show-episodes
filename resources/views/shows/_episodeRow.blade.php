@@ -13,6 +13,6 @@
         </p>
     </div>
     <div>
-        {{ $episode->plays }} plays
+        {{ $episode->plays ?? 0 }} plays
     </div>
 </div>

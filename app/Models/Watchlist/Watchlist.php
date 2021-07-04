@@ -37,6 +37,11 @@ class Watchlist extends Model
         'private' => 'boolean',
     ];
 
+    protected $fillable = [
+        'user_id',
+        'private',
+    ];
+
     public function shows(): BelongsToMany
     {
         return $this->belongsToMany(Show::class, 'watchlist_shows');
@@ -45,5 +50,12 @@ class Watchlist extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function togglePrivate(): self
+    {
+        $this->private = ! $this->private;
+
+        return $this;
     }
 }
